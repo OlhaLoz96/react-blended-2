@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import Loader from "../Loader/Loader";
 import Text from "../Text/Text";
 import PhotosGallery from "../PhotosGallery/PhotosGallery";
-// import Modal from "../Modal/Modal";
+import Modal from "../Modal/Modal";
 
 export default function App() {
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -38,13 +38,13 @@ export default function App() {
     }
   };
 
-  console.log(photos);
-  console.log(selectedPhoto);
+  // console.log(photos);
 
   const handleSelectedPhoto = (photo: Photo | null) => {
     setSelectedPhoto(photo);
   };
-  console.log(handleSelectedPhoto);
+
+  // console.log(selectedPhoto);
 
   return (
     <>
@@ -53,8 +53,21 @@ export default function App() {
           <Form onSearch={handleSearch} />
           {isLoading && <Loader />}
           {isError && <Text textAlign="center"> Something went wrong...</Text>}
-          {photos.length > 0 && <PhotosGallery photos={photos} />}
-          {/* {selectedPhoto && <Modal onClose={} />} */}
+          {photos.length > 0 && (
+            <PhotosGallery photos={photos} onSelect={handleSelectedPhoto} />
+          )}
+          {selectedPhoto && (
+            <Modal onClose={() => setSelectedPhoto(null)}>
+              <div
+                style={{
+                  backgroundColor: selectedPhoto.avg_color,
+                  borderColor: selectedPhoto.avg_color,
+                }}
+              >
+                <img src={selectedPhoto.src.original} alt={selectedPhoto.alt} />
+              </div>
+            </Modal>
+          )}
         </Container>
       </Section>
     </>

@@ -1,5 +1,5 @@
 import { FiSearch } from "react-icons/fi";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import style from "./Form.module.css";
 
@@ -10,7 +10,7 @@ interface FormProps {
 export default function Form({ onSearch }: FormProps) {
   const handleSubmit = (formData: FormData) => {
     const query = formData.get("search") as string;
-    console.log(query);
+    // console.log(query);
 
     if (!query.trim()) {
       toast.error("Can not be empty");
@@ -21,17 +21,20 @@ export default function Form({ onSearch }: FormProps) {
   };
 
   return (
-    <form className={style.form} action={handleSubmit}>
-      <input
-        className={style.input}
-        placeholder="What do you want to write?"
-        name="search"
-        autoFocus
-      />
+    <div>
+      <Toaster />
+      <form className={style.form} action={handleSubmit}>
+        <input
+          className={style.input}
+          placeholder="What do you want to write?"
+          name="search"
+          autoFocus
+        />
 
-      <button className={style.button} type="submit">
-        <FiSearch size="16px" />
-      </button>
-    </form>
+        <button className={style.button} type="submit">
+          <FiSearch size="16px" />
+        </button>
+      </form>
+    </div>
   );
 }
